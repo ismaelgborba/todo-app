@@ -8,7 +8,7 @@ class ListAllTasksController {
 
     const listAllTasksUseCase = container.resolve(ListAllTasksUseCase)
 
-    const tasks = listAllTasksUseCase.execute(user_id);
+    const tasks = await listAllTasksUseCase.execute(user_id);
 
     return response.status(200).json(tasks);
   }

@@ -4,12 +4,23 @@ import { ICreateTaskDTO } from "../../dtos/ICreateTaskDTO";
 import { ITaskRepository } from "../../repositories/ITaskRepository";
 
 class TaskRepository implements ITaskRepository {
-  async create({ name, category, description }: ICreateTaskDTO): Promise<void> {
+  async findAll(user_id: string): Promise<Task[]> {
+    const tasks = await prisma.task.findMany({
+      where: {
+        user_id
+      }
+    });
+
+    return tasks;
+  }
+
+  async create({ name, category, description }: ICreateTaskDTO, user_id: string): Promise<void> {
     await prisma.task.create({
       data: {
         name, 
         category, 
-        description
+        description,
+        user_id
       }
     })
   }

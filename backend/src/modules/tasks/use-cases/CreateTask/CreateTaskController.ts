@@ -5,6 +5,8 @@ import { CreateTaskUseCase } from "./CreateTaskUseCase";
 
 class CreateTaskController {
   async handle(request: Request, response: Response) {
+    const { id: user_id } = request.user;
+
     const {
       name,
       description,
@@ -17,7 +19,7 @@ class CreateTaskController {
       name,
       description,
       category
-    });
+    }, user_id);
 
     return response.status(201).send();
   }

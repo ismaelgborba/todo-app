@@ -1,10 +1,10 @@
+import { Task } from "@prisma/client";
 import { inject, injectable } from "tsyringe";
 import { IUserRepository } from "../../../users/repositories/IUserRepository";
-import { ICreateTaskDTO } from "../../dtos/ICreateTaskDTO";
 import { ITaskRepository } from "../../repositories/ITaskRepository";
 
 @injectable()
-class CreateTaskUseCase {
+class ListAllTasksUseCase {
   constructor(
     @inject("UsersRepository")
     private usersRepository: IUserRepository,
@@ -12,19 +12,16 @@ class CreateTaskUseCase {
     private tasksRepository: ITaskRepository
   ) {}
 
-  async execute({ name, category, description }: ICreateTaskDTO, user_id: string): Promise<void> {
+  async execute(user_id: string): Promise<Task[]> {
     const user = await this.usersRepository.findById(user_id);
 
     if(!user) {
       throw new Error("User not exists.")
     }
 
-    await this.tasksRepository.create({
-      name, 
-      description,
-      category,
-    }, user_id);
+    const tasks = await this.tasksRepository.findAll(user_id);
+    return tasks;
   }
 }
 
-export { CreateTaskUseCase };
+export { ListAllTasksUseCase };

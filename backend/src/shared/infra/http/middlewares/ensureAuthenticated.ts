@@ -19,7 +19,7 @@ export async function ensureAuthenticated(
   const [_, token] = auth_header.split(" ");
 
   try {
-    const { sub: user_id } = verify(token, 'express') as IPayload;
+    const { sub: user_id } = verify(token, "welcome-jungle") as IPayload;
 
     request.user = {
       id: user_id

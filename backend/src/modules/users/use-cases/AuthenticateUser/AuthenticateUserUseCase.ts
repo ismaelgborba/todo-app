@@ -26,6 +26,7 @@ class AuthenticateUserUseCase {
 
   async execute({ email, password }: ICreateAuthentication): Promise<IResponse> {
     const user = await this.usersRepository.findByEmail(email);
+    const userEmail = user?.email;
     const userId = user?.id;
 
     if (!user) {
@@ -38,8 +39,9 @@ class AuthenticateUserUseCase {
       throw new Error("Email or password incorrect!");
     }
 
-    const token = jwt.sign({ userId }, 'express', {
-      expiresIn: 60 * 60 * 30
+    const token = jwt.sign({ userEmail }, "welcome-jungle", {
+      subject: userId,
+      expiresIn: 60 * 60 * 24 * 7
     });
 
     return {

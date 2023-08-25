@@ -1,7 +1,6 @@
 import { hash } from 'bcrypt';
 import { inject, injectable } from 'tsyringe';
 
-import prisma from "../../../../lib/prisma";
 import { IUserRepository } from '../../repositories/IUserRepository';
 
 export interface ICreateUser {
